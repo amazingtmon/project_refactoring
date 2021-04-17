@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Stack;
 
+import javax.swing.JOptionPane;
+
 import com.common.Protocol;
 import com.file.ClientAddress;
 
@@ -56,10 +58,7 @@ public class ClientSocket extends Socket{
 	public void checkLogin(String p_id, String p_pw) throws IOException {
 		send(Protocol.checkLogin, p_id, p_pw);
 	}
-	
-	public void confirmLogin() {
-		
-	}
+
 	/**
 	 *  메소드
 	 */

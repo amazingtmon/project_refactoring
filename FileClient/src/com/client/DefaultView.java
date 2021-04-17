@@ -34,7 +34,9 @@ public class DefaultView extends JFrame{
 	JPanel jp_south   = new JPanel();
 	JButton jbtn_chat = new JButton("방 만들기");
 
-	
+	public DefaultView() {
+		initDisplay();
+	}
 	
 	public void initDisplay() {
 		//상단

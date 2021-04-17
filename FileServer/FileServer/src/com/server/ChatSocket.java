@@ -22,26 +22,17 @@ public class ChatSocket extends Socket implements Runnable{
 	Thread thread = null;
 	
 	ChatServer chatServer = null;
-	ChatServerMethod chatservermethod = null;
+	ChatServerMethod chatservermethod = new ChatServerMethod(this);
 
-	public Map<String, ChatSocket> onlineUser = null;
-	public List<String> offlineUser = null;
-	public Map<String, List<ChatSocket>> chatRoom = null;
-	
-//	public ChatSocket(ChatServer chatServer) {
-//		this.chatServer = chatServer;
-//		System.out.println("chatServer: "+this.chatServer);
-//	}
+	public ChatSocket(ChatServer chatServer) {
+		this.chatServer = chatServer;
+	}
 
 	protected void serverStart() throws IOException {
 		thread = new Thread(this);
 		ois = new ObjectInputStream(getInputStream());
 		oos = new ObjectOutputStream(getOutputStream());
-		onlineUser = new Hashtable<String, ChatSocket>();
-		offlineUser = new Vector<String>();
-		chatRoom = new Hashtable<String, List<ChatSocket>>();
 		errorList = new Stack<Exception>();
-		System.out.println("list chck"+onlineUser+", "+offlineUser+", "+chatRoom);
 		thread.start();//ChatSocket.run();실행.
 	}
 	
@@ -71,7 +62,6 @@ public class ChatSocket extends Socket implements Runnable{
 					StringTokenizer st = new StringTokenizer(msg, "#");
 					switch(st.nextToken()) {
 					case Protocol.checkLogin:{ //100#
-						chatservermethod = new ChatServerMethod(this);
 						String p_id = st.nextToken();
 						String p_pw = st.nextToken();
 						chatservermethod.checkLogin(p_id, p_pw);

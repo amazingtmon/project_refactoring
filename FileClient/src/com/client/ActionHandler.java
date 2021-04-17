@@ -44,7 +44,6 @@ public class ActionHandler implements ActionListener{
 			try {
 				client.checkLogin(logView.jtf_id.getText(), logView.jtf_pw.getText());
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
