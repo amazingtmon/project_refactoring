@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class AddUserView extends JDialog{ //회원가입
+	ActionHandler action = null;
+	
 	JLabel 			jlb_id = new JLabel("아이디");
 	JLabel 			jlb_pw = new JLabel("비밀번호");
 	JLabel 			jlb_name = new JLabel("이름");
@@ -14,10 +16,15 @@ public class AddUserView extends JDialog{ //회원가입
 	JTextField 		jtf_name = new JTextField("이름을 입력해주세요.");
 	JButton 		jbtn_join = new JButton("가입신청");
 	
+	public AddUserView(ActionHandler action) {
+		this.action = action;
+		initDisplay();
+	}
+	
 	public void initDisplay() {
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		//이벤트
-		jbtn_join.addActionListener(null);
+		jbtn_join.addActionListener(action);
 		jtf_id.addFocusListener(null);
 		jtf_pw.addFocusListener(null);
 		jtf_name.addFocusListener(null);

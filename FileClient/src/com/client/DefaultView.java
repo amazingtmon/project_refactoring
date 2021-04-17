@@ -47,7 +47,7 @@ public class DefaultView extends JFrame{
 	JScrollPane jsp_offline = new JScrollPane(jtb_offline);
 	//하단
 	JPanel jp_south   = new JPanel();
-	JButton jbtn_chat = new JButton("방 만들기");
+	JButton jbtn_chat = new JButton("초대하기");
 	
 	
 	//생성자

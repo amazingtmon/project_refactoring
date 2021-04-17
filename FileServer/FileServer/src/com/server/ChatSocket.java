@@ -36,6 +36,7 @@ public class ChatSocket extends Socket implements Runnable{
       thread.start();//ChatSocket.run();실행.
    }
    
+   /*ChatServerMethod로 이동 ㄱㄱ
    public void send(String... str) throws IOException {
          String msg = "";
          for(int i=0;i<str.length;i++) {
@@ -47,7 +48,17 @@ public class ChatSocket extends Socket implements Runnable{
          System.out.println("C_Socket_send: "+msg);
          oos.writeObject(msg);
       }
+      */
 
+   private List<String> decompose(String result){
+		List<String> list = new Vector<>();
+		String[] values = result.replaceAll("\\p{Punct}", "").split(" ");
+		for(String str:values) {
+			list.add(str);
+			}
+		return list;
+	}
+   
    @Override
    public void run() {
       boolean isStop = false;
@@ -72,8 +83,12 @@ public class ChatSocket extends Socket implements Runnable{
                case Protocol.showUser:{ //120#
 
                }break;
-               case Protocol.createRoom:{ //200#
-
+               case Protocol.createRoom:{ //200#요청아이디#초대된아이디들#채팅방이름
+            	   //여기에 작업
+            	   String p_id = st.nextToken();
+            	   List<String> selected_ID = decompose(st.nextToken());
+            	   String roomName = st.nextToken();
+            	   chatservermethod.openRoom(p_id,selected_ID,roomName);
                }break;
                case Protocol.closeRoom:{ //210#
 

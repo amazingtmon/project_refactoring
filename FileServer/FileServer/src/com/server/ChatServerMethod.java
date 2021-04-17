@@ -68,11 +68,25 @@ public class ChatServerMethod {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	   
-	   
 	}////////////////////////////////////////end of showUser
    
-   
+   public void openRoom(String p_id, List<String>selected_ID, String roomName) {
+	   List<ChatSocket> userSocket = new Vector<ChatSocket>();
+	   userSocket.add(chatsocket.chatServer.onlineUser.get(p_id)); //내 자신(소켓) 리스트에 넣기
+	   for(String id:selected_ID) {
+		   userSocket.add(chatsocket.chatServer.onlineUser.get(id)); //선택된 아이디들(소켓) 리스트에 넣기
+		}
+	   chatsocket.chatServer.chatRoom.put(roomName,userSocket);
+	   
+	   try {//200#p_id#roomName
+		   chatsocket.oos.writeObject(Protocol.createRoom
+									+Protocol.seperator+p_id
+									+Protocol.seperator+roomName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	   
+   }
    
 }
       

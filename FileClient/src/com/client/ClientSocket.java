@@ -63,6 +63,31 @@ public class ClientSocket extends Socket{
 		send(Protocol.checkLogin, p_id, p_pw);
 	}
 	
+	
+	public void createRoom(String p_id,List<String> selected_ID,String roomName) throws IOException {
+		 //#200#요청아이디#초대된아이디들#채팅방이름
+		String msg = Protocol.createRoom
+					+Protocol.seperator+p_id
+					+Protocol.seperator+selected_ID
+					+Protocol.seperator+roomName;
+		oos.writeObject(msg);
+		//send(Protocol.createRoom,selected_ID,roomName); //#200#요청아이디#초대된아이디들#채팅방이름
+	}
+
+	
+	
+	/**
+	 *  메소드
+	 */
+	
+	
+	/**
+	 *  메소드
+	 */
+	
+	/**
+	 *  메소드
+	 */
 	public void showUser (List<String> onlineUser, List<String> offlineUser) {
 		while(thread.defView.dtm_online.getRowCount() > 0) {
 			thread.defView.dtm_online.removeRow(0);
@@ -81,41 +106,6 @@ public class ClientSocket extends Socket{
 			thread.defView.dtm_offline.addRow(onRow);
 		}
 	}
-	
-	
-	public void checkBox(CreateChattingView ccView) {
-		System.out.println("checkBox() 호출 성공");
-		System.out.println("thread.defView.dtm_online.getRowCount() 성공? " + thread.defView.dtm_online.getRowCount());
-		System.out.println("진짜 널 찾았다"+thread.ccView);
-		System.out.println("이거는 널 아니지 그치?"+ccView);
-		ccView.jp_center = new JPanel(new GridLayout(thread.defView.dtm_online.getRowCount(),1,2,2)); //접속중 유저만큼 그리드레이아웃 만들기
-		ccView.onlines = new String[thread.defView.dtm_online.getRowCount()]; 	  //dtm값 넣을 배열 크기 초기화
-		ccView.jcb_online = new JCheckBox[thread.defView.dtm_online.getRowCount()]; //체크 박스 크기 초기화
-		
-		for(int i=0; i<thread.defView.dtm_online.getRowCount(); i++) {    
-			if(!thread.defView.p_id.equals(thread.defView.dtm_online.getValueAt(i, 0))) {//equals써보자
-				ccView.onlines[i]=thread.defView.dtm_online.getValueAt(i, 0).toString(); //dtm값을 배열에 넣기
-				//System.out.println("onlines["+i+"]  :  "+onlines[i]);
-				ccView.jcb_online[i] = new JCheckBox(ccView.onlines[i]); //배열의 값을 담은 체크박스 생성
-				ccView.jp_center.add(ccView.jcb_online[i]); //체크박스 패널에 추가
-				//thread.ccView.jcb_online[i].addItemListener(this); //이벤트 처리
-			}
-		}
-		ccView.initDisplay();
-	}
-	
-	/**
-	 *  메소드
-	 */
-	
-	
-	/**
-	 *  메소드
-	 */
-	
-	/**
-	 *  메소드
-	 */
 
 	/**
 	 *  메소드

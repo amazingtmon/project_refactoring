@@ -2,6 +2,8 @@ package com.client;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -10,8 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class CreateChattingView extends JFrame {
+	ActionHandler action = null;
 	//선언부
 	String onlines[] = null;
+	List<String> selected_ID = new Vector<>();
 	
 	JPanel jp_north = new JPanel();
 	JPanel jp_center = new JPanel();
@@ -22,15 +26,15 @@ public class CreateChattingView extends JFrame {
 	
 	//생성자
 	
-	public CreateChattingView() {
-		//initDisplay();
+	public CreateChattingView(ActionHandler action) {
+		this.action = action;
 	}
 	
 	//화면처리부
 	public void initDisplay() {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		jp_center.setBackground(Color.WHITE);
-		jbtn_create.addActionListener(null);
+		jbtn_create.addActionListener(action);
 		jlb_selectUser.setFont(new Font("고딕체", Font.BOLD, 15));
 		jp_north.add(jlb_selectUser);
 		jp_south.add(jbtn_create);

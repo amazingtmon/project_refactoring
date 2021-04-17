@@ -77,10 +77,10 @@ public class ClientThread extends Thread{
 					offlineUser  = decompose(second);
 					client.showUser(onlineUser, offlineUser);
 				}break;
-				case Protocol.createRoom:{//200#
-					
-					chatView = new ChatRoomView();
-					
+				case Protocol.createRoom:{//200#p_id#roomName
+					String p_id= st.nextToken();
+					String roomName = st.nextToken();
+					chatView = new ChatRoomView(action,p_id,roomName);
 				}break;
 				case Protocol.closeRoom:{//210#
 					
