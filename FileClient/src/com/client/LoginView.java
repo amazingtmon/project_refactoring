@@ -22,9 +22,12 @@ public class LoginView extends JFrame{
 	LoginView() {
 		
 	}
+	
 	LoginView(ActionHandler action) {
 		this.action = action;
+		initDisplay();
 	}
+	
 	public void initDisplay() {
 
 		this.setLayout(null);
@@ -40,10 +43,11 @@ public class LoginView extends JFrame{
 		this.add(jtf_pw);
 		jtf_id.setBounds(120, 200, 185, 40);
 		jtf_pw.setBounds(120, 250, 185, 40);
-
+		
 		jbtn_login.addActionListener(action);
 		this.add(jbtn_login);
 		jbtn_login.setBounds(160, 300, 100, 40);
+		
 		jbtn_join.addActionListener(action);
 		this.add(jbtn_join);
 		jbtn_join.setBounds(160, 350, 100, 40);

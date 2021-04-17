@@ -18,6 +18,7 @@ public class ClientThread extends Thread{
 	ActionHandler action = null;
 	
 	public ClientThread(ClientSocket client) {
+		System.out.println("ClientThread() called");
 		this.client = client;
 		action = new ActionHandler();// 액션리스너클래스 실행
 		logView = new LoginView(action);// 최초 로그인 뷰 실행
@@ -32,9 +33,9 @@ public class ClientThread extends Thread{
 				StringTokenizer st = new StringTokenizer(msg, "#");
 				switch(st.nextToken()) {
 				case Protocol.checkLogin:{//100#
-					
-					defView = new DefaultView();
-					action.setInstance(defView);
+					System.out.println("server msg: "+msg);
+//					defView = new DefaultView();
+//					action.setInstance(defView);
 					
 				}break;
 				case Protocol.addUser:{//110#

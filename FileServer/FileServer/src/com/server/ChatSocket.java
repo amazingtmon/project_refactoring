@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 import com.common.Protocol;
 
@@ -16,14 +20,42 @@ public class ChatSocket extends Socket implements Runnable{
 	ObjectInputStream ois = null;
 	private Stack<Exception> errorList = null;
 	Thread thread = null;
+	
+	ChatServer chatServer = null;
+	ChatServerMethod chatservermethod = null;
+
+	public Map<String, ChatSocket> onlineUser = null;
+	public List<String> offlineUser = null;
+	public Map<String, List<ChatSocket>> chatRoom = null;
+	
+//	public ChatSocket(ChatServer chatServer) {
+//		this.chatServer = chatServer;
+//		System.out.println("chatServer: "+this.chatServer);
+//	}
 
 	protected void serverStart() throws IOException {
 		thread = new Thread(this);
 		ois = new ObjectInputStream(getInputStream());
 		oos = new ObjectOutputStream(getOutputStream());
+		onlineUser = new Hashtable<String, ChatSocket>();
+		offlineUser = new Vector<String>();
+		chatRoom = new Hashtable<String, List<ChatSocket>>();
 		errorList = new Stack<Exception>();
-		thread.start();
+		System.out.println("list chck"+onlineUser+", "+offlineUser+", "+chatRoom);
+		thread.start();//ChatSocket.run();실행.
 	}
+	
+	public void send(String... str) throws IOException {
+	      String msg = "";
+	      for(int i=0;i<str.length;i++) {
+	         if(i==str.length-1) 
+	            msg = msg+str[i];
+	         else 
+	            msg = msg+str[i]+Protocol.seperator;            
+	      }
+	      System.out.println("C_Socket_send: "+msg);
+	      oos.writeObject(msg);
+	   }
 
 	@Override
 	public void run() {
@@ -34,12 +66,15 @@ public class ChatSocket extends Socket implements Runnable{
 		try {
 			run_start://while문같은 반복문 전체를 빠져 나가도록 처리할 때
 				while(!isStop) {
-					System.out.println("벨레레레레렐");
 					String msg = ois.readObject().toString();
+					System.out.println("msg: "+msg);
 					StringTokenizer st = new StringTokenizer(msg, "#");
 					switch(st.nextToken()) {
 					case Protocol.checkLogin:{ //100#
-
+						chatservermethod = new ChatServerMethod(this);
+						String p_id = st.nextToken();
+						String p_pw = st.nextToken();
+						chatservermethod.checkLogin(p_id, p_pw);
 					}break;
 					case Protocol.addUser:{ //110#
 

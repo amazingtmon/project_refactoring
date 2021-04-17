@@ -39,11 +39,6 @@ public class DefaultView extends JFrame{
 	public void initDisplay() {
 		//상단
 		//절대값으로 위치 선정
-		//			jp_north.setBackground(Color.green);
-		//			jp_online.setBackground(Color.blue);
-		//			jp_offline.setBackground(Color.yellow);
-		//			jp_south.setBackground(Color.white);
-
 		jp_north.setBounds(0, 20, 500, 40);
 		jp_online.setBounds(0, 60, 500, 200);
 		jp_offline.setBounds(0, 280, 500, 200);

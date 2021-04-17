@@ -6,26 +6,41 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Stack;
 
+import com.common.Protocol;
 import com.file.ClientAddress;
 
 //전송관련 메소드를 전부 담당하는 클래스
 public class ClientSocket extends Socket{
-	private ClientAddress address = null;
+	private ClientAddress address = null;//클라이언트 소켓.
 	public ObjectOutputStream oos = null;
 	public ObjectInputStream ois = null;
 	private Stack<Exception> errorList = null;
 	ClientThread thread = null;
 	
 	public ClientSocket(ClientAddress address) throws IOException {
+		System.out.println("ClientSocket called");
 		this.address = address;
 		connection();
 	}
+	
+	public void send(String... str) throws IOException {
+	      String msg = "";
+	      for(int i=0;i<str.length;i++) {
+	         if(i==str.length-1) 
+	            msg = msg+str[i];
+	         else 
+	            msg = msg+str[i]+Protocol.seperator;            
+	      }
+	      System.out.println("C_Socket_send: "+msg);
+	      oos.writeObject(msg);
+	   }
 	
 	/**
 	 * 서버 접속 메소드
 	 */
 	private void connection() throws IOException {
 		super.connect(address);
+		System.out.println("connection() called");
 		oos = new ObjectOutputStream(getOutputStream());
 		ois = new ObjectInputStream(getInputStream());
 		thread = new ClientThread(this);
@@ -34,8 +49,15 @@ public class ClientSocket extends Socket{
 	}
 	/**
 	 *  로그인 시도 메소드
+	 * @param p_pw 
+	 * @param p_id 
+	 * @throws IOException 
 	 */
-	public void checkLogin() {
+	public void checkLogin(String p_id, String p_pw) throws IOException {
+		send(Protocol.checkLogin, p_id, p_pw);
+	}
+	
+	public void confirmLogin() {
 		
 	}
 	/**
