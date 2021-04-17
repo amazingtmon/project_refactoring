@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 import java.util.Stack;
+import java.util.Vector;
 
 import com.common.Protocol;
 import com.file.ClientAddress;
@@ -57,12 +59,29 @@ public class ClientSocket extends Socket{
 		send(Protocol.checkLogin, p_id, p_pw);
 	}
 	
-	public void confirmLogin() {
-		
+	public void showUser (List<String> onlineUser, List<String> offlineUser) {
+		while(thread.defView.dtm_online.getRowCount() > 0) {
+			thread.defView.dtm_online.removeRow(0);
+		}
+		for(int i=0; i< onlineUser.size(); i++) {
+			Vector<Object> onRow = new Vector<Object>();
+			onRow.add(onlineUser.get(i)); 
+			thread.defView.dtm_online.addRow(onRow);
+		}
+		while(thread.defView.dtm_offline.getRowCount() > 0) {
+			thread.defView.dtm_offline.removeRow(0);
+		}
+		for(int i=0; i< offlineUser.size(); i++) {
+			Vector<Object> onRow = new Vector<Object>();
+			onRow.add(offlineUser.get(i));
+			thread.defView.dtm_offline.addRow(onRow);
+		}
 	}
+	
 	/**
 	 *  메소드
 	 */
+	
 	
 	/**
 	 *  메소드

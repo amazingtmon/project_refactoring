@@ -1,6 +1,10 @@
 package com.client;
 
+import java.util.List;
 import java.util.StringTokenizer;
+import java.util.Vector;
+
+import javax.swing.JOptionPane;
 
 import com.common.Protocol;
 
@@ -25,6 +29,15 @@ public class ClientThread extends Thread{
 		action.setInstance(logView, client); // 액션리스너클래스에 로그인뷰 주소번지 인입
 	}
 	
+	private List<String> decompose(String result){
+		List<String> list = new Vector<>();
+		String[] values = result.replaceAll("\\p{Punct}", "").split(" ");
+		for(String str:values) {
+			list.add(str);
+			}
+		return list;
+	}
+	
 	public void run(){
 		boolean isStop = false;
 		while(!isStop) {
@@ -32,17 +45,39 @@ public class ClientThread extends Thread{
 				String msg = client.ois.readObject().toString();
 				StringTokenizer st = new StringTokenizer(msg, "#");
 				switch(st.nextToken()) {
-				case Protocol.checkLogin:{//100#
+				case Protocol.checkLogin:{//100#result(overlap)
 					System.out.println("server msg: "+msg);
-//					defView = new DefaultView();
-//					action.setInstance(defView);
-					
+					String result = st.nextToken();
+					if("difid".equals(result)) {
+						JOptionPane.showMessageDialog(null, "아이디가 존재하지 않습니다");
+					}
+					else if("difpw".equals(result)) {
+						JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다");
+					}
+					else if("overlap".equals(result)) {
+						JOptionPane.showMessageDialog(null, "이미 로그인된 아이디입니다.");
+					}
+					else if(logView.jtf_id.getText().equals(result)) {
+						//온라인 리스트 벡터 가져오기
+						Protocol.p_id = result;
+						logView.dispose(); //기존 화면 닫음
+						defView = new DefaultView(Protocol.p_id);
+						action.setInstance(defView);
+					}
 				}break;
 				case Protocol.addUser:{//110#
 					
 					
 				}break;
-				case Protocol.showUser:{//120#
+				case Protocol.showUser:{//120#onlineUser#offlineUser
+					String first = st.nextToken();//온라인유저
+					String second = st.nextToken();//오프라인유저
+					List<String> onlineUser = null;
+					List<String> offlineUser = null;
+					onlineUser = decompose(first);
+					offlineUser  = decompose(second);
+					client.showUser(onlineUser, offlineUser);
+					
 					
 					
 				}break;
