@@ -5,7 +5,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class AddUserView extends JDialog{
+public class AddUserView extends JDialog{ //회원가입
 	JLabel 			jlb_id = new JLabel("아이디");
 	JLabel 			jlb_pw = new JLabel("비밀번호");
 	JLabel 			jlb_name = new JLabel("이름");

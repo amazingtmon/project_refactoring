@@ -1,5 +1,6 @@
 package com.client;
 
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,6 +8,9 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
+
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 
 import com.common.Protocol;
 import com.file.ClientAddress;
@@ -76,6 +80,28 @@ public class ClientSocket extends Socket{
 			onRow.add(offlineUser.get(i));
 			thread.defView.dtm_offline.addRow(onRow);
 		}
+	}
+	
+	
+	public void checkBox(CreateChattingView ccView) {
+		System.out.println("checkBox() 호출 성공");
+		System.out.println("thread.defView.dtm_online.getRowCount() 성공? " + thread.defView.dtm_online.getRowCount());
+		System.out.println("진짜 널 찾았다"+thread.ccView);
+		System.out.println("이거는 널 아니지 그치?"+ccView);
+		ccView.jp_center = new JPanel(new GridLayout(thread.defView.dtm_online.getRowCount(),1,2,2)); //접속중 유저만큼 그리드레이아웃 만들기
+		ccView.onlines = new String[thread.defView.dtm_online.getRowCount()]; 	  //dtm값 넣을 배열 크기 초기화
+		ccView.jcb_online = new JCheckBox[thread.defView.dtm_online.getRowCount()]; //체크 박스 크기 초기화
+		
+		for(int i=0; i<thread.defView.dtm_online.getRowCount(); i++) {    
+			if(!thread.defView.p_id.equals(thread.defView.dtm_online.getValueAt(i, 0))) {//equals써보자
+				ccView.onlines[i]=thread.defView.dtm_online.getValueAt(i, 0).toString(); //dtm값을 배열에 넣기
+				//System.out.println("onlines["+i+"]  :  "+onlines[i]);
+				ccView.jcb_online[i] = new JCheckBox(ccView.onlines[i]); //배열의 값을 담은 체크박스 생성
+				ccView.jp_center.add(ccView.jcb_online[i]); //체크박스 패널에 추가
+				//thread.ccView.jcb_online[i].addItemListener(this); //이벤트 처리
+			}
+		}
+		ccView.initDisplay();
 	}
 	
 	/**

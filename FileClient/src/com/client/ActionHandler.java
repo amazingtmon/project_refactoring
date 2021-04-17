@@ -56,7 +56,12 @@ public class ActionHandler implements ActionListener{
 	//기본화면
 		
 	//유저선택화면
-		
+		else if(obj == defView.jbtn_chat) {
+			System.out.println("Clicked 방 만들기!!"); 
+			//방 만들기 버튼 두번 눌렀을때 중복창 안뜨게 하기
+			ccView = new CreateChattingView();
+			client.checkBox(ccView);
+		}
 	//채팅화면
 		
 	//파일전송화면

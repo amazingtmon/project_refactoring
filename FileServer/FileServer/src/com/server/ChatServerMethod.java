@@ -39,7 +39,7 @@ public class ChatServerMethod {
                System.out.println("login 성공~! ");
                chatsocket.oos.writeObject(Protocol.checkLogin+Protocol.seperator+result);//정상로그인
                chatsocket.chatServer.onlineUser.put(result, chatsocket);
-               System.out.println("onlineUser: "+chatsocket.chatServer.onlineUser);
+               //System.out.println("onlineUser: "+chatsocket.chatServer.onlineUser);
                showUser(chatsocket.chatServer.onlineUser);
             }
          }

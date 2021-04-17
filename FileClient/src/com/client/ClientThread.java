@@ -15,7 +15,7 @@ public class ClientThread extends Thread{
 	LoginView logView = null;
 	AddUserView addView = null;
 	DefaultView defView = null;
-	CreateChattingView ccView = null;
+	CreateChattingView ccView = null; //얘도 어디선가 초기화 해줘야함 아니면 null뜬다..
 	ChatRoomView chatView = null;
 	SelectFileView selectView = null;
 	
@@ -61,7 +61,7 @@ public class ClientThread extends Thread{
 						//온라인 리스트 벡터 가져오기
 						Protocol.p_id = result;
 						logView.dispose(); //기존 화면 닫음
-						defView = new DefaultView(Protocol.p_id);
+						defView = new DefaultView(action, Protocol.p_id);
 						action.setInstance(defView);
 					}
 				}break;
@@ -72,14 +72,10 @@ public class ClientThread extends Thread{
 				case Protocol.showUser:{//120#onlineUser#offlineUser
 					String first = st.nextToken();//온라인유저
 					String second = st.nextToken();//오프라인유저
-					List<String> onlineUser = null;
-					List<String> offlineUser = null;
+					List<String> onlineUser,offlineUser = null;
 					onlineUser = decompose(first);
 					offlineUser  = decompose(second);
 					client.showUser(onlineUser, offlineUser);
-					
-					
-					
 				}break;
 				case Protocol.createRoom:{//200#
 					

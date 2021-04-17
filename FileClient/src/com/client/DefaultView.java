@@ -16,6 +16,8 @@ import javax.swing.table.TableColumnModel;
 import com.common.Protocol;
 
 public class DefaultView extends JFrame{
+	ActionHandler action = null;
+	
 	String p_id = null;
 	JPanel jp_north = new JPanel();
 	JLabel jlb_name = new JLabel();  //사용자이름
@@ -49,7 +51,8 @@ public class DefaultView extends JFrame{
 	
 	
 	//생성자
-	public DefaultView(String Protocol_p_id) {
+	public DefaultView(ActionHandler action, String Protocol_p_id) {
+		this.action = action;
 		this.p_id = Protocol_p_id;
 		setTitle("접속자 : "+p_id);
 		jlb_name.setText(p_id+"님 환영합니다!");
@@ -79,18 +82,15 @@ public class DefaultView extends JFrame{
 		for(int i = 0 ; i < tcm.getColumnCount() ; i++){
 			tcm.getColumn(i).setCellRenderer(dtcr);
 		}
-		jtb_online.addMouseListener(null);
 		jp_online.add(jlb_online);
 		jp_online.add(jsp_online);
 		jp_offline.add(jlb_offline);
 		jp_offline.add(jsp_offline);
-		jtb_online.addMouseListener(null);
-		jtb_offline.addMouseListener(null);
 		jtb_online.setEnabled(false); //테이블 선택 안되게
 		jtb_offline.setEnabled(false); //테이블 선택 안되게
 
 		//하단
-		jbtn_chat.addActionListener(null);
+		jbtn_chat.addActionListener(action);
 		jp_south.add(jbtn_chat);
 
 		//프레임

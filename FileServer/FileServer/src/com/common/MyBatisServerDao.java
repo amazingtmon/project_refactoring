@@ -31,7 +31,7 @@ public class MyBatisServerDao {
 	}
 	public List<String> showUser(List<String> onlineUser) {
 		List<String> offUser = new Vector<String>();
-		System.out.println(onlineUser.toString());
+		//System.out.println(onlineUser.toString());
 		SqlSession sqlSession = null;
 		try {
 	    	sqlSession = sqlSessionFactory.openSession();
