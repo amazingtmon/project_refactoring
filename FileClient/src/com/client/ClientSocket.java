@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 import java.util.Stack;
+import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
@@ -60,12 +62,42 @@ public class ClientSocket extends Socket{
 	}
 
 	/**
-	 *  메소드
+	 *  showUser 메소드
 	 */
+	public void showUser (List<String> onlineUser, List<String> offlineUser) {
+		while(thread.defaultview.dtm_online.getRowCount() > 0) {
+			thread.defaultview.dtm_online.removeRow(0);
+		}
+		for(int i=0; i< onlineUser.size(); i++) {
+			Vector<Object> onRow = new Vector<Object>();
+			onRow.add(onlineUser.get(i)); 
+			thread.defaultview.dtm_online.addRow(onRow);
+		}
+		while(thread.defaultview.dtm_offline.getRowCount() > 0) {
+			thread.defaultview.dtm_offline.removeRow(0);
+		}
+		for(int i=0; i< offlineUser.size(); i++) {
+			Vector<Object> onRow = new Vector<Object>();
+			onRow.add(offlineUser.get(i));
+			thread.defaultview.dtm_offline.addRow(onRow);
+		}
+	}
 	
 	/**
-	 *  메소드
+	 * AddUser 메소드
 	 */
+	public void addUser(String new_id, String new_pw, String new_name) throws IOException{
+		send(Protocol.addUser, new_id, new_pw, new_name);
+	}
+
+	public void addResult(String result) {
+		if("성공".equals(result)) {
+			JOptionPane.showMessageDialog(thread.addView, thread.addView.jtf_id.getText()+"님 가입을 환영합니다.");
+			thread.addView.dispose();
+		}
+	}
+	
+	
 	
 	/**
 	 *  메소드

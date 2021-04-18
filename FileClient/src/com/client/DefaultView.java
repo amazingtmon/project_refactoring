@@ -14,30 +14,48 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 public class DefaultView extends JFrame{
+	ActionHandler action = null;
+	
+	String p_id = null;
 	JPanel jp_north = new JPanel();
 	JLabel jlb_name = new JLabel();  //사용자이름
 	//중단1
 	JPanel jp_online = new JPanel();
 	JLabel jlb_online = new JLabel("온라인");
 	String online[] = {"아이디"};
-	DefaultTableModel dtm_online = new DefaultTableModel(online,0); 
+	DefaultTableModel dtm_online = new DefaultTableModel(online,0){
+		@Override //셀 더블클릭 후 수정 안되도록 조정.
+		public boolean isCellEditable(int row, int column) {  //수정, 입력 불가
+			return false;
+		}
+	};
 	JTable jtb_online = new JTable(dtm_online);
 	JScrollPane jsp_online = new JScrollPane(jtb_online);
 	//중단2
 	JPanel jp_offline = new JPanel();
 	JLabel jlb_offline = new JLabel("오프라인");
 	String offline[] = {"아이디"};
-	DefaultTableModel dtm_offline = new DefaultTableModel(online,0); 
+	DefaultTableModel dtm_offline = new DefaultTableModel(offline,0){
+		@Override //셀 더블클릭 후 수정 안되도록 조정.
+		public boolean isCellEditable(int row, int column) {  //수정, 입력 불가
+			return false;
+		}
+	}; 
 	JTable jtb_offline = new JTable(dtm_offline);
 	JScrollPane jsp_offline = new JScrollPane(jtb_offline);
 	//하단
 	JPanel jp_south   = new JPanel();
-	JButton jbtn_chat = new JButton("방 만들기");
-
-	public DefaultView() {
+	JButton jbtn_chat = new JButton("초대하기");
+	
+	//생성자
+	public DefaultView(String Protocol_p_id, ActionHandler action) {
+		this.p_id = Protocol_p_id;
+		this.action = action;
+		setTitle("접속자 : "+p_id);
+		jlb_name.setText(p_id+"님 환영합니다!");
 		initDisplay();
 	}
-	
+
 	public void initDisplay() {
 		//상단
 		//절대값으로 위치 선정
@@ -68,6 +86,8 @@ public class DefaultView extends JFrame{
 		jp_offline.add(jsp_offline);
 		jtb_online.addMouseListener(null);
 		jtb_offline.addMouseListener(null);
+		jtb_online.setEnabled(false); //테이블 선택 안되게
+		jtb_offline.setEnabled(false); //테이블 선택 안되게
 
 		//하단
 		jbtn_chat.addActionListener(null);

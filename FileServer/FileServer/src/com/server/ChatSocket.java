@@ -36,18 +36,6 @@ public class ChatSocket extends Socket implements Runnable{
 		thread.start();//ChatSocket.run();실행.
 	}
 	
-	public void send(String... str) throws IOException {
-	      String msg = "";
-	      for(int i=0;i<str.length;i++) {
-	         if(i==str.length-1) 
-	            msg = msg+str[i];
-	         else 
-	            msg = msg+str[i]+Protocol.seperator;            
-	      }
-	      System.out.println("C_Socket_send: "+msg);
-	      oos.writeObject(msg);
-	   }
-
 	@Override
 	public void run() {
 		boolean isStop = false;
@@ -66,8 +54,11 @@ public class ChatSocket extends Socket implements Runnable{
 						String p_pw = st.nextToken();
 						chatservermethod.checkLogin(p_id, p_pw);
 					}break;
-					case Protocol.addUser:{ //110#
-
+					case Protocol.addUser:{ //110#new_id#new_pw#new_name
+						String new_id = st.nextToken();
+						String new_pw = st.nextToken();
+						String new_name = st.nextToken();
+						chatservermethod.addUser(new_id, new_pw, new_name);
 					}break;
 					case Protocol.showUser:{ //120#
 

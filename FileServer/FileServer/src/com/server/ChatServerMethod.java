@@ -18,6 +18,18 @@ public class ChatServerMethod {
 		this.chatsocket = chatSocket;
 		System.out.println("chatsocket"+chatsocket);
 	}
+	
+	public void send(String... str) throws IOException {
+	      String msg = "";
+	      for(int i=0;i<str.length;i++) {
+	         if(i==str.length-1) 
+	            msg = msg+str[i];
+	         else 
+	            msg = msg+str[i]+Protocol.seperator;            
+	      }
+	      System.out.println("C_Socket_send: "+msg);
+	      chatsocket.oos.writeObject(msg);
+	   }
 
 	public void checkLogin(String p_id, String p_pw) {
 		try {
@@ -55,10 +67,10 @@ public class ChatServerMethod {
 	
 	//120번 유저리스트/////////////////////////////////////
 	//전체 접속자한테 유저리스트를 보내기, 온라인 오프라인 구분하기
-	public void showUser(Map<String, ChatSocket> user) {
+	public void showUser(Map<String, ChatSocket> onlineuser) {
 		try {
 			List<String> onlineUser = new Vector<String>();
-			for(String p_id:user.keySet()) {
+			for(String p_id:onlineuser.keySet()) {
 				onlineUser.add(p_id);
 			}
 			MyBatisServerDao serDao = new MyBatisServerDao();
@@ -69,9 +81,23 @@ public class ChatServerMethod {
 						+Protocol.seperator+chatsocket.chatServer.offlineUser);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	//110번 회원가입/////////////////////////////
+	public void addUser(String new_id, String new_pw, String new_name) {
+		try {
+			FTSDao ftsDao = new FTSDao();
+			String msg = ftsDao.addUser(new_id,new_pw,new_name);
+			//110#내용
+			chatsocket.oos.writeObject(Protocol.addUser
+									+Protocol.seperator+"성공"); 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
 		
