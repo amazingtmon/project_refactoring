@@ -54,7 +54,7 @@ public class LoginView extends JFrame{
 
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setTitle("Login");
-		this.setSize(400, 600);
+		this.setBounds(700, 200, 400, 600);
 		this.setVisible(true);
 	}
 

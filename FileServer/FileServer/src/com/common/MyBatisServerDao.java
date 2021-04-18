@@ -1,4 +1,5 @@
 package com.common;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -6,7 +7,7 @@ import java.util.Vector;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import com.Mapper.MyBatisCommonFactory;
+import com.mapper.MyBatisCommonFactory;
 
 public class MyBatisServerDao {
 	
@@ -30,7 +31,7 @@ public class MyBatisServerDao {
 	}
 	public List<String> showUser(List<String> onlineUser) {
 		List<String> offUser = new Vector<String>();
-		System.out.println(onlineUser.toString());
+		//System.out.println(onlineUser.toString());
 		SqlSession sqlSession = null;
 		try {
 	    	sqlSession = sqlSessionFactory.openSession();
@@ -55,17 +56,3 @@ public class MyBatisServerDao {
 		System.out.println(offUser.toString());
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

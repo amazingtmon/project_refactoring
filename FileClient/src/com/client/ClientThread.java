@@ -10,12 +10,12 @@ import com.common.Protocol;
 
 //서버로부터 수신받은 오브젝트를 처리하는 클래스
 public class ClientThread extends Thread{
-	ClientSocket clientsocket = null;// 서버와 연결된 oos, ois가 상주하는 핵심 소켓클래스
+	ClientSocket client = null;// 서버와 연결된 oos, ois가 상주하는 핵심 소켓클래스
 	
 	LoginView loginview = null;
 	AddUserView addView = null;
-	DefaultView defaultview = null;
-	CreateChattingView ccView = null;
+	DefaultView defView = null;
+	CreateChattingView ccView = null; //얘도 어디선가 초기화 해줘야함 아니면 null뜬다..
 	ChatRoomView chatView = null;
 	SelectFileView selectView = null;
 	
@@ -23,7 +23,7 @@ public class ClientThread extends Thread{
 	
 	public ClientThread(ClientSocket client) {
 		System.out.println("ClientThread() called");
-		this.clientsocket = client;
+		this.client = client;
 		action = new ActionHandler();// 액션리스너클래스 실행
 		loginview = new LoginView(action);// 최초 로그인 뷰 실행
 		addView = new AddUserView(action);
@@ -31,23 +31,23 @@ public class ClientThread extends Thread{
 		action.setInstance(addView);
 	}
 	
-	public List<String> decompose(String result){
-	      List<String> list = new Vector<>();
-	      String[] values = result.replaceAll("\\p{Punct}", "").split(" ");
-	      for(String str:values) {
-	         list.add(str);
-	      }
-	      return list;
-	   }
+	private List<String> decompose(String result){
+		List<String> list = new Vector<>();
+		String[] values = result.replaceAll("\\p{Punct}", "").split(" ");
+		for(String str:values) {
+			list.add(str);
+			}
+		return list;
+	}
 	
 	public void run(){
 		boolean isStop = false;
 		while(!isStop) {
 			try {
-				String msg = clientsocket.ois.readObject().toString();
+				String msg = client.ois.readObject().toString();
 				StringTokenizer st = new StringTokenizer(msg, "#");
 				switch(st.nextToken()) {
-				case Protocol.checkLogin:{//100#
+				case Protocol.checkLogin:{//100#result(overlap)
 					System.out.println("server msg: "+msg);
 					String result = st.nextToken();
 					if("difid".equals(result)) {
@@ -60,31 +60,30 @@ public class ClientThread extends Thread{
 						JOptionPane.showMessageDialog(null, "이미 로그인된 아이디입니다.");
 					}
 					else if(loginview.jtf_id.getText().equals(result)) {
+						//온라인 리스트 벡터 가져오기
 						Protocol.p_id = result;
-						defaultview = new DefaultView(result, action);
-						action.setInstance(defaultview);
-						loginview.dispose();//기존 화면 닫음
+						loginview.dispose(); //기존 화면 닫음
+						defView = new DefaultView(action, Protocol.p_id);
+						action.setInstance(defView);
 					}
 				}break;
 				case Protocol.addUser:{//110#
 					String result = st.nextToken();
-					clientsocket.addResult(result);
+					client.addResult(result);
 					
 				}break;
-				case Protocol.showUser:{//120#
+				case Protocol.showUser:{//120#onlineUser#offlineUser
 					String first = st.nextToken();//온라인유저
 					String second = st.nextToken();//오프라인유저
-					List<String> onlineUser = null;
-					List<String> offlineUser = null;
+					List<String> onlineUser,offlineUser = null;
 					onlineUser = decompose(first);
 					offlineUser  = decompose(second);
-					clientsocket.showUser(onlineUser, offlineUser);
-					
+					client.showUser(onlineUser, offlineUser);
 				}break;
-				case Protocol.createRoom:{//200#
-					
-					chatView = new ChatRoomView();
-					
+				case Protocol.createRoom:{//200#p_id#roomName
+					String p_id= st.nextToken();
+					String roomName = st.nextToken();
+					chatView = new ChatRoomView(action,p_id,roomName);
 				}break;
 				case Protocol.closeRoom:{//210#
 					

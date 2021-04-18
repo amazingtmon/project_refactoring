@@ -5,7 +5,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class AddUserView extends JDialog{
+public class AddUserView extends JDialog{ //회원가입
 	ActionHandler action = null;
 	
 	JLabel 			jlb_id = new JLabel("아이디");
@@ -18,8 +18,9 @@ public class AddUserView extends JDialog{
 	
 	public AddUserView(ActionHandler action) {
 		this.action = action;
+		initDisplay();
 	}
-
+	
 	public void initDisplay() {
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		//이벤트
