@@ -75,15 +75,16 @@ public class ActionHandler implements ActionListener, FocusListener, ItemListene
 			ccView.checkbox();
 			ccView.initDisplay();
 		}
-		
 	//유저선택화면
 		else if(obj == ccView.jbtn_create) {
 			System.out.println("create room clicked");
 			client.createroom(defView.p_id, ccView.withRoomIDs);
 		}
-		
 	//채팅화면
-		
+//		else if(obj == chatView.jtf_msg ||obj ==chatView.jbtn_send) {
+//			System.out.println("메세지 전송!!!");
+//			chatView.jtf_msg.setText("");
+//		}
 	//파일전송화면
 		
 	}

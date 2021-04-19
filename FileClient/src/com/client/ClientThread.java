@@ -45,10 +45,10 @@ public class ClientThread extends Thread{
 		while(!isStop) {
 			try {
 				String msg = clientsocket.ois.readObject().toString();
+				System.out.println("msg from server: "+msg);
 				StringTokenizer st = new StringTokenizer(msg, "#");
 				switch(st.nextToken()) {
 				case Protocol.checkLogin:{//100#
-					System.out.println("server msg: "+msg);
 					String result = st.nextToken();
 					if("difid".equals(result)) {
 						JOptionPane.showMessageDialog(null, "아이디가 존재하지 않습니다");
@@ -68,12 +68,12 @@ public class ClientThread extends Thread{
 						loginview.dispose();//기존 화면 닫음
 					}
 				}break;
-				case Protocol.addUser:{//110#
+				case Protocol.addUser:{//110#result('성공')
 					String result = st.nextToken();
 					clientsocket.addResult(result);
 					
 				}break;
-				case Protocol.showUser:{//120#
+				case Protocol.showUser:{//120#onlineUser#offlineUser
 					String first = st.nextToken();//온라인유저
 					String second = st.nextToken();//오프라인유저
 					List<String> onlineUser = null;
@@ -83,9 +83,15 @@ public class ClientThread extends Thread{
 					clientsocket.showUser(onlineUser, offlineUser);
 					
 				}break;
-				case Protocol.createRoom:{//200#
-					
-					chatView = new ChatRoomView();
+				case Protocol.createRoom:{////200#p_id#roomName
+					System.out.println("msg in protocol: "+msg);
+					String p_id = st.nextToken();
+					String roomName = st.nextToken();
+					chatView = new ChatRoomView(p_id, roomName, action);
+					action.setInstance(chatView);
+					clientsocket.chatRoom.put(roomName, chatView);
+					System.out.println(clientsocket.chatRoom.keySet());
+					ccView.jf.dispose();
 					
 				}break;
 				case Protocol.closeRoom:{//210#

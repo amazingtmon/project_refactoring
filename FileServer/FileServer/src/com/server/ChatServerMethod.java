@@ -102,12 +102,12 @@ public class ChatServerMethod {
 	}
 	
 	//200# 채팅방 만들기//////////////////////////
-	public void creatRoom(String p_id, List<String> roomIDs, String roomName) {
+	public void creatRoom(String p_id, List<String> RoomUserIds, String roomName) {
 		List<ChatSocket> user = new Vector<ChatSocket>();
 		user.add(chatsocket.chatServer.onlineUser.get(p_id));
-		System.out.println("유저리스트의 사이즈  : "+roomIDs.size());
-		System.out.println("요거 찍어보기  "+p_id+"  "+roomIDs);
-		for(String id:roomIDs) {
+		System.out.println("유저리스트의 사이즈  : "+RoomUserIds.size());
+		System.out.println("요거 찍어보기  "+p_id+"  "+RoomUserIds);
+		for(String id:RoomUserIds) {
 			//id haeri1127  --초대된 아이디들이 id에 넣어짐
 			//id test100
 			//id abcd123
@@ -119,6 +119,7 @@ public class ChatServerMethod {
 		}
 		chatsocket.chatServer.chatRoom.put(roomName, user); //Map<roomName, user(List<ThreadHandler>)>
 		//<바나나 우유방,haeri1127&abcd123>  <초콜릿 방, qwer123&...>
+		System.out.println(chatsocket.chatServer.chatRoom.keySet());
 		
 		
 		try {//200#p_id#roomName

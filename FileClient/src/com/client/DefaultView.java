@@ -63,7 +63,6 @@ public class DefaultView extends JFrame{
 		jp_online.setBounds(0, 60, 500, 200);
 		jp_offline.setBounds(0, 280, 500, 200);
 		jp_south.setBounds(0, 500, 500, 40);
-		/////////////////
 		jlb_name.setFont(new Font("맑은고딕",Font.BOLD,15));
 		jp_north.add(jlb_name);
 
@@ -94,7 +93,6 @@ public class DefaultView extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		this.setLayout(null);
-		//jf.getContentPane().setLayout(new GridLayout(0,1));
 		this.add(jp_north);
 		this.add(jp_online); //온라인 테이블 적용
 		this.add(jp_offline); //오프라인 테이블 적용

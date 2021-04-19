@@ -74,10 +74,10 @@ public class ChatSocket extends Socket implements Runnable{
 					}break;
 					case Protocol.createRoom:{ //200#
 						String p_id = st.nextToken();
-						List<String> RoomIDs = decompose(st.nextToken());
+						List<String> RoomUserIds = decompose(st.nextToken());
 						String roomName = st.nextToken();
 						
-						chatservermethod.creatRoom(p_id, RoomIDs, roomName);
+						chatservermethod.creatRoom(p_id, RoomUserIds, roomName);
 						
 						
 					}break;
