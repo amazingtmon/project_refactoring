@@ -81,7 +81,9 @@ public class ClientSocket extends Socket{
 	public void addUser(String new_id, String new_pw, String new_name) throws IOException{
 		send(Protocol.addUser, new_id, new_pw, new_name);
 	}
-	
+	/**
+	 * addResult 메소드
+	 */
 	public void addResult(String result) {
 		if("성공".equals(result)) {
 			JOptionPane.showMessageDialog(thread.addView, thread.addView.jtf_id.getText()+"님 가입을 환영합니다.");

@@ -56,12 +56,10 @@ public class ActionHandler implements ActionListener, ItemListener, FocusListene
 				e1.printStackTrace();
 			}
 		}
-		
+		//회원가입
 		else if(obj == logView.jbtn_join) {
 			addView.initDisplay();
-		}
-	//회원가입
-		else if(obj == addView.jbtn_join || obj == addView.jtf_name) {
+		}else if(obj == addView.jbtn_join || obj == addView.jtf_name) {
 			System.out.println("join clicked");
 			String new_id = addView.jtf_id.getText();
 			String new_pw = addView.jtf_pw.getText();
