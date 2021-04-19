@@ -79,18 +79,15 @@ public class DefaultView extends JFrame{
 		for(int i = 0 ; i < tcm.getColumnCount() ; i++){
 			tcm.getColumn(i).setCellRenderer(dtcr);
 		}
-		jtb_online.addMouseListener(null);
 		jp_online.add(jlb_online);
 		jp_online.add(jsp_online);
 		jp_offline.add(jlb_offline);
 		jp_offline.add(jsp_offline);
-		jtb_online.addMouseListener(null);
-		jtb_offline.addMouseListener(null);
 		jtb_online.setEnabled(false); //테이블 선택 안되게
 		jtb_offline.setEnabled(false); //테이블 선택 안되게
 
 		//하단
-		jbtn_chat.addActionListener(null);
+		jbtn_chat.addActionListener(action);
 		jp_south.add(jbtn_chat);
 
 		//프레임

@@ -4,9 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
 
-public class ActionHandler implements ActionListener, FocusListener{
+import javax.swing.JCheckBox;
+
+public class ActionHandler implements ActionListener, FocusListener, ItemListener{
 	private ClientSocket client = null;// 서버와 연결된 oos, ois가 상주하는 핵심 소켓클래스
 	
 	private LoginView logView = null;
@@ -68,9 +72,15 @@ public class ActionHandler implements ActionListener, FocusListener{
 	//메인화면
 		else if(obj == defView.jbtn_chat) {
 			System.out.println("inviteBtn clicked");
+			ccView.checkbox();
+			ccView.initDisplay();
 		}
 		
 	//유저선택화면
+		else if(obj == ccView.jbtn_create) {
+			System.out.println("create room clicked");
+			client.createroom(defView.p_id, ccView.withRoomIDs);
+		}
 		
 	//채팅화면
 		
@@ -98,6 +108,22 @@ public class ActionHandler implements ActionListener, FocusListener{
 	@Override
 	public void focusLost(FocusEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent ie) {
+		Object c = ie.getSource();
+		System.out.println("itemStateChanged 호출");
+		if(ie.getStateChange() == ie.SELECTED) {
+			ccView.withRoomIDs.add(((JCheckBox) ie.getSource()).getText()); //체크박스의 값 들어가야함.
+			System.out.println("체크 성공   :   "+ccView.withRoomIDs);
+		}
+		
+		else if(ie.getStateChange() == ie.DESELECTED) {
+			ccView.withRoomIDs.remove(((JCheckBox) ie.getSource()).getText()); //체크박스의 값 들어가야함.
+			System.out.println("체크 해제   :   "+ccView.withRoomIDs);
+		}
 		
 	}
 

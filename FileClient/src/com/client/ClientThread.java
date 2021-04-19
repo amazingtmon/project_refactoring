@@ -63,6 +63,8 @@ public class ClientThread extends Thread{
 						Protocol.p_id = result;
 						defaultview = new DefaultView(result, action);
 						action.setInstance(defaultview);
+						ccView = new CreateChattingView(defaultview, action);
+						action.setInstance(ccView);
 						loginview.dispose();//기존 화면 닫음
 					}
 				}break;

@@ -31,6 +31,7 @@ public class ChatServerMethod {
 	      chatsocket.oos.writeObject(msg);
 	   }
 
+	//100# 로그인 체크//////////////////////////////////
 	public void checkLogin(String p_id, String p_pw) {
 		try {
 			FTSDao ftsDao = new FTSDao();
@@ -99,6 +100,36 @@ public class ChatServerMethod {
 		}
 		
 	}
+	
+	//200# 채팅방 만들기//////////////////////////
+	public void creatRoom(String p_id, List<String> roomIDs, String roomName) {
+		List<ChatSocket> user = new Vector<ChatSocket>();
+		user.add(chatsocket.chatServer.onlineUser.get(p_id));
+		System.out.println("유저리스트의 사이즈  : "+roomIDs.size());
+		System.out.println("요거 찍어보기  "+p_id+"  "+roomIDs);
+		for(String id:roomIDs) {
+			//id haeri1127  --초대된 아이디들이 id에 넣어짐
+			//id test100
+			//id abcd123
+			// .....
+			user.add(chatsocket.chatServer.onlineUser.get(id)); 
+			//onlineUser<String, ThreadHandler> 안에 있는 키(id)를 통해 get해오면
+			//ThreadHandler 값이 나오겠지? 그거를 user<ThreadHandler>에 넣기
+			//user라는건 초대된 아이디들의 스레드를 모아둔 리스트
+		}
+		chatsocket.chatServer.chatRoom.put(roomName, user); //Map<roomName, user(List<ThreadHandler>)>
+		//<바나나 우유방,haeri1127&abcd123>  <초콜릿 방, qwer123&...>
+		
+		
+		try {//200#p_id#roomName
+			chatsocket.oos.writeObject(Protocol.createRoom
+									+Protocol.seperator+p_id
+									+Protocol.seperator+roomName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
 		
 

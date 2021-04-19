@@ -97,12 +97,23 @@ public class ClientSocket extends Socket{
 		}
 	}
 	
-	
-	
 	/**
-	 *  메소드
+	 *  createChatRoom 메소드
 	 */
-
+	public void createroom(String p_id, Vector<String> withRoomIDs) {
+		String roomName = JOptionPane.showInputDialog(null,"채팅방 이름을 설정해주세요.");
+		String RoomIDs = withRoomIDs.toString();
+//		String msg = Protocol.createRoom 
+//					+ Protocol.seperator+name
+//					+Protocol.seperator+withRoomIDs
+//					+Protocol.seperator+roomName;
+		try {
+//			oos.writeObject(msg);
+			send(Protocol.createRoom,p_id,RoomIDs,roomName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 *  메소드
 	 */
