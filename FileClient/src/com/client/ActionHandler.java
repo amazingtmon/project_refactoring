@@ -56,7 +56,7 @@ public class ActionHandler implements ActionListener, ItemListener, FocusListene
 				e1.printStackTrace();
 			}
 		}
-		
+	//로그인 창에서 회원가입 버튼 누름(회원가입 신청)
 		else if(obj == logView.jbtn_join) {
 			addView.initDisplay();
 		}
@@ -72,9 +72,6 @@ public class ActionHandler implements ActionListener, ItemListener, FocusListene
 				e1.printStackTrace();
 			}
 		}
-	//회원가입 신청
-		
-		
 	//기본화면
 		
 		

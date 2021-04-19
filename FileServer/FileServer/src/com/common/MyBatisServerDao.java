@@ -7,7 +7,7 @@ import java.util.Vector;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import com.mapper.MyBatisCommonFactory;
+import com.Mapper.MyBatisCommonFactory;
 
 public class MyBatisServerDao {
 	

@@ -18,7 +18,7 @@ public class AddUserView extends JDialog{ //회원가입
 	
 	public AddUserView(ActionHandler action) {
 		this.action = action;
-		initDisplay();
+		//initDisplay();
 	}
 	
 	public void initDisplay() {
