@@ -27,6 +27,8 @@ public class ClientThread extends Thread{
 		action = new ActionHandler();// 액션리스너클래스 실행
 		loginview = new LoginView(action);// 최초 로그인 뷰 실행
 		action.setInstance(loginview, client); // 액션리스너클래스에 로그인뷰 주소번지 인입
+		addView = new AddUserView(action); 
+		action.setInstance(addView);
 	}
 	
 	private List<String> decompose(String result){

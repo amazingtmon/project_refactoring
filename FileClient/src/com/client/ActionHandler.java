@@ -55,11 +55,13 @@ public class ActionHandler implements ActionListener, ItemListener, FocusListene
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-		}
+			}
 		//회원가입
 		else if(obj == logView.jbtn_join) {
 			addView.initDisplay();
-		}else if(obj == addView.jbtn_join || obj == addView.jtf_name) {
+		}
+		//회원가입 신청
+		else if(obj == addView.jbtn_join || obj == addView.jtf_name) {
 			System.out.println("join clicked");
 			String new_id = addView.jtf_id.getText();
 			String new_pw = addView.jtf_pw.getText();
@@ -70,7 +72,6 @@ public class ActionHandler implements ActionListener, ItemListener, FocusListene
 				e1.printStackTrace();
 			}
 		}
-	//회원가입 신청
 		
 		
 	//기본화면
