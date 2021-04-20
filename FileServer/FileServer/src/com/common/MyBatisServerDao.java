@@ -1,18 +1,17 @@
 package com.common;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import com.Mapper.MyBatisCommonFactory;
+import com.mapper.MyBatisCommonFactory;
 
 public class MyBatisServerDao {
 	
 	SqlSessionFactory sqlSessionFactory = null;
 	public MyBatisServerDao() {
-		sqlSessionFactory = MyBatisCommonFactory.getInstance();
+		sqlSessionFactory = MyBatisCommonFactory.getInstance();//마이바티스 인스턴스화.
 	}
 	public String gettest(){
 		SqlSession sqlSession = null;
@@ -28,6 +27,21 @@ public class MyBatisServerDao {
 		}
 	    return test;
 	}
+	public String loginCheck(String p_id, String p_pw ){
+		String result = null;
+		System.out.println("id: "+p_id+", "+"pw: "+p_pw);
+		SqlSession sqlSession = null;
+		try {
+	    	sqlSession = sqlSessionFactory.openSession();
+	    	//result = sqlSession.selectList("loginchck");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+		return result;
+	}
+	
 	public List<String> showUser(List<String> onlineUser) {
 		List<String> offUser = new Vector<String>();
 		System.out.println(onlineUser.toString());

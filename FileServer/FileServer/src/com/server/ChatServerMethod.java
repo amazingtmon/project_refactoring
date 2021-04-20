@@ -34,6 +34,8 @@ public class ChatServerMethod {
 	//100# 로그인 체크//////////////////////////////////
 	public void checkLogin(String p_id, String p_pw) {
 		try {
+			//MyBatisServerDao serDao = new MyBatisServerDao();
+			//String result = serDao.loginCheck(p_id, p_pw);
 			FTSDao ftsDao = new FTSDao();
 			String result = ftsDao.loginCheck(p_id, p_pw);
 			//result값은 difid  or   difpw   or  로그인 성공

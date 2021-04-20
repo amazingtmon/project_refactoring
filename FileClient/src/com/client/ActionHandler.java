@@ -81,10 +81,10 @@ public class ActionHandler implements ActionListener, FocusListener, ItemListene
 			client.createroom(defView.p_id, ccView.withRoomIDs);
 		}
 	//채팅화면
-//		else if(obj == chatView.jtf_msg ||obj ==chatView.jbtn_send) {
-//			System.out.println("메세지 전송!!!");
-//			chatView.jtf_msg.setText("");
-//		}
+		else if(obj == chatView.jtf_msg ||obj ==chatView.jbtn_send) {
+			System.out.println("메세지 전송!!!");
+			chatView.jtf_msg.setText("");
+		}
 	//파일전송화면
 		
 	}

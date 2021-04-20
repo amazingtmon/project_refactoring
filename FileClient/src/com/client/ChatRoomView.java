@@ -40,7 +40,7 @@ public class ChatRoomView extends JFrame{
 	//화면처리
 	public void initDisplay() {
 		
-		jtf_msg.addActionListener(new ActionListener() {
+		/*jtf_msg.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -57,7 +57,9 @@ public class ChatRoomView extends JFrame{
 				jtf_msg.setText("");
 			}
 			
-		});
+		});*/
+		jtf_msg.addActionListener(action);
+		jbtn_send.addActionListener(action);
 		jta_display.setFont(new Font("고딕체",Font.BOLD,20));
 		
 		jp_first.setLayout(new BorderLayout());
