@@ -1,6 +1,7 @@
 package com.server;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +31,27 @@ public class ChatServerMethod {
 	      System.out.println("C_Socket_send: "+msg);
 	      chatsocket.oos.writeObject(msg);
 	   }
+	
+	/* 마이바티스 프로시져 메소드 [logDao.getLogin(pMap)]호출 예제.
+	  if (obj == logView_Login_Button) {
 
+	     Map<String, Object> pMap = new HashMap<String, Object>();
+	     pMap.put("p_id", Integer.parseInt(logView_EmpNo_TextField.getText()));
+	     pMap.put("p_pw", logView_EmpPw_TextField.getText());
+	     
+	     //프로시져 결과값 msg가 tempList에 담김.
+	     List<Map<String, Object>> tempList = logDao.getLogin(pMap);
+	     
+	     for (Map<String, Object> map : tempList) {
+	        System.out.println(map);
+	     }
+	*/
+	
 	//100# 로그인 체크//////////////////////////////////
 	public void checkLogin(String p_id, String p_pw) {
 		try {
 			//MyBatisServerDao serDao = new MyBatisServerDao();
-			//String result = serDao.loginCheck(p_id, p_pw);
+			//String result = serDao.loginCheck();
 			FTSDao ftsDao = new FTSDao();
 			String result = ftsDao.loginCheck(p_id, p_pw);
 			//result값은 difid  or   difpw   or  로그인 성공

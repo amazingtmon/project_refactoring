@@ -20,7 +20,7 @@
 	  	)
 	</select>
 	
-	<select id="loginchck" statementType="CALLABLE" parameterType="java.lang.String">
+	<select id="loginchck" statementType="CALLABLE" parameterType="java.util.Map">
       {CALL proc_login(#{p_id, mode=IN, jdbcType=VARCHAR, javaType=String}
                   , #{p_pw, mode=IN, jdbcType=VARCHAR, javaType=String}
                   , #{msg, mode=OUT, jdbcType=VARCHAR, javaType=String})}
