@@ -79,7 +79,7 @@ public class ActionHandler implements ActionListener, ItemListener, FocusListene
 		else if(obj == defView.jbtn_chat) {
 			System.out.println("Clicked 방 만들기!!"); 
 			//방 만들기 버튼 두번 눌렀을때 중복창 안뜨게 하기!!!!!!!
-			ccView = new CreateChattingView(this);
+			//ccView = new CreateChattingView(this);
 			ccView.jp_center = new JPanel(new GridLayout(defView.dtm_online.getRowCount(),1,2,2)); //접속중 유저만큼 그리드레이아웃 만들기
 			ccView.onlines = new String[defView.dtm_online.getRowCount()]; 	  //dtm값 넣을 배열 크기 초기화
 			ccView.jcb_online = new JCheckBox[defView.dtm_online.getRowCount()]; //체크 박스 크기 초기화
@@ -97,6 +97,7 @@ public class ActionHandler implements ActionListener, ItemListener, FocusListene
 		
 	//초대 유저 서버에 보내기
 		else if(obj == ccView.jbtn_create) {
+			//System.out.println("이게 눌렸다고????????왜");
 			String roomName = JOptionPane.showInputDialog(null,"채팅방 이름을 설정해주세요.");
 			ccView.dispose();//유저초대창 닫기
 			
@@ -108,11 +109,24 @@ public class ActionHandler implements ActionListener, ItemListener, FocusListene
 		}
 		
 	//채팅화면
+		else if(obj==chatView.jtf_msg||obj==chatView.jbtn_send) {
+			System.out.println("button action!! 메세지 전송");
+			String chat_msg = chatView.jtf_msg.getText();
+			try {
+				client.sendMessage(chatView.p_id,chatView.roomName,chat_msg);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			chatView.jtf_msg.setText("");
+		}
+		
 		
 	//파일전송화면
 		
 	
 	}///////////////////////////////////////////////////////end of actionPerformed
+	
+	
 	//회원가입
 	@Override
 	public void focusGained(FocusEvent fe) {
@@ -141,8 +155,6 @@ public class ActionHandler implements ActionListener, ItemListener, FocusListene
 		Object obj = ie.getSource();
 		System.out.println("itemStateChanged 호출");
 		if(ie.getStateChange() == ie.SELECTED) {
-			System.out.println("33333 if문 실행");
-			System.out.println("44444 널? "+ccView.selected_ID);
 			ccView.selected_ID.add(((JCheckBox) ie.getSource()).getText()); //체크박스의 값 들어가야함.
 			System.out.println("체크 성공   :   "+ccView.selected_ID);
 		}

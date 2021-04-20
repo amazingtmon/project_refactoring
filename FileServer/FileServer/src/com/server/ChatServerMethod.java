@@ -19,6 +19,7 @@ public class ChatServerMethod {
       System.out.println("chatsocket"+chatsocket);
    }
 
+   //100번 로그인 체크////////////////////////////////////////
    public void checkLogin(String p_id, String p_pw) {
       try {
          FTSDao ftsDao = new FTSDao();
@@ -49,42 +50,46 @@ public class ChatServerMethod {
       }catch (Exception e) {
          e.printStackTrace();
       }
-   }////////////////////////////////////////end of checkLogin
+   }
    
+   //유저 메인뷰에 보여주기
    public void showUser(Map<String, ChatSocket> user) {
 	   try {
-			List<String> onlineUser = new Vector<String>();
-			for(String p_id:user.keySet()) {
-				onlineUser.add(p_id);
-			}
-			MyBatisServerDao serDao = new MyBatisServerDao();
-			chatsocket.chatServer.offlineUser = serDao.showUser(onlineUser);
-			for(String key:chatsocket.chatServer.onlineUser.keySet()) {
-				chatsocket.chatServer.onlineUser.get(key).oos.writeObject(Protocol.showUser
-						+Protocol.seperator+onlineUser
-						+Protocol.seperator+chatsocket.chatServer.offlineUser);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}////////////////////////////////////////end of showUser
+		   List<String> onlineUser = new Vector<String>();
+		   for(String p_id:user.keySet()) {
+			   onlineUser.add(p_id);
+		   }
+		   MyBatisServerDao serDao = new MyBatisServerDao();
+		   chatsocket.chatServer.offlineUser = serDao.showUser(onlineUser);
+		   for(String key:chatsocket.chatServer.onlineUser.keySet()) {
+			   chatsocket.chatServer.onlineUser.get(key).oos.writeObject(Protocol.showUser
+					   +Protocol.seperator+onlineUser
+					   +Protocol.seperator+chatsocket.chatServer.offlineUser);
+		   }
+	   } catch (IOException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+	   }
+   }
    
-	//110번 회원가입/////////////////////////////
-	public void addUser(String new_id, String new_pw, String new_name) {
-		try {
-			FTSDao ftsDao = new FTSDao();
-			String msg = ftsDao.addUser(new_id,new_pw,new_name);
-			//110#내용
-			chatsocket.oos.writeObject(Protocol.addUser
-									+Protocol.seperator+"성공"); 
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}////////////////////////////////////////end of addUser
    
+   //110번 회원가입/////////////////////////////
+   public void addUser(String new_id, String new_pw, String new_name) {
+	   try {
+		   FTSDao ftsDao = new FTSDao();
+		   String msg = ftsDao.addUser(new_id,new_pw,new_name);
+		   //110#내용
+		   chatsocket.oos.writeObject(Protocol.addUser
+				   +Protocol.seperator+"성공"); 
+		   
+	   } catch (Exception e) {
+		   e.printStackTrace();
+	   }
+	   
+   }
+   
+   
+   //200번 채팅방 열기////////////////////////////
    public void openRoom(String p_id, List<String>selected_ID, String roomName) {
 	   List<ChatSocket> userSocket = new Vector<ChatSocket>();
 	   userSocket.add(chatsocket.chatServer.onlineUser.get(p_id)); //내 자신(소켓) 리스트에 넣기
@@ -102,6 +107,31 @@ public class ChatServerMethod {
 		}
 	   
    }
+   
+   //300번 메세지 보내기//////////////////////////
+   public void sendMessage(String p_id, String roomName, String chat_msg) {
+	   try {
+		   //roomName의 이름을 가진 채팅방 유저 소켓들을 꺼내 넣을 벡터 초기화
+		   List<ChatSocket> room_user_socket = new Vector<ChatSocket>();
+		   //roomName의 이름을 키로 가진 소켓들을 넣어줌
+		   room_user_socket.addAll(chatsocket.chatServer.chatRoom.get(roomName));
+		   //가져온 유저소켓들에게 각각 oos를 쏘기
+		   for(ChatSocket user:room_user_socket) {
+			  //300#p_id(말한 사람)#방이름#채팅메세지
+			  user.oos.writeObject(Protocol.sendMessage
+					   			  +Protocol.seperator+p_id
+					   			  +Protocol.seperator+roomName
+					   			  +Protocol.seperator+chat_msg);
+		   }
+		   
+	   	} catch (IOException e) {
+			e.printStackTrace();
+		}
+   }
+   
+   
+   //
+   
    
 }
       

@@ -96,8 +96,11 @@ public class ChatSocket extends Socket implements Runnable{
                case Protocol.closeRoom:{ //210#
 
                }break;
-               case Protocol.sendMessage:{ //300#
-
+               case Protocol.sendMessage:{ //300#말한 아이디#방 이름#채팅메세지
+            	   String p_id = st.nextToken();
+            	   String roomName = st.nextToken();
+            	   String chat_msg = st.nextToken();
+            	   chatservermethod.sendMessage(p_id, roomName, chat_msg);
                }break;
                case Protocol.sendEmoticon:{ //310#
 

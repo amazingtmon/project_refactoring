@@ -30,13 +30,13 @@ public class ChatRoomView extends JFrame{
 		this.action = action;
 		this.p_id = p_id;
 		this.roomName = roomName;
-		initDisplay();
+		//initDisplay();
 	}
 	
 	
 	public void initDisplay() {
-		jtf_msg.addActionListener(null);
-		jbtn_send.addActionListener(null);
+		jtf_msg.addActionListener(action);
+		jbtn_send.addActionListener(action);
 		jta_display.setFont(new Font("고딕체",Font.BOLD,20));
 		
 		jp_first.setLayout(new BorderLayout());

@@ -28,7 +28,9 @@ public class ClientThread extends Thread{
 		loginview = new LoginView(action);// 최초 로그인 뷰 실행
 		addView = new AddUserView(action);
 		action.setInstance(loginview, client); // 액션리스너클래스에 로그인뷰 주소번지 인입
-		action.setInstance(addView);
+		action.setInstance(addView); //이거 위치 여기 맞아?addUser에 가야하는거 아닌가? 물어보기
+		//action.setInstance(ccView);
+		//action.setInstance(chatView);
 	}
 	
 	private List<String> decompose(String result){
@@ -47,7 +49,7 @@ public class ClientThread extends Thread{
 				String msg = client.ois.readObject().toString();
 				StringTokenizer st = new StringTokenizer(msg, "#");
 				switch(st.nextToken()) {
-				case Protocol.checkLogin:{//100#result(overlap)
+				case Protocol.checkLogin:{//100#result(or overlap)
 					System.out.println("server msg: "+msg);
 					String result = st.nextToken();
 					if("difid".equals(result)) {
@@ -65,6 +67,9 @@ public class ClientThread extends Thread{
 						loginview.dispose(); //기존 화면 닫음
 						defView = new DefaultView(action, Protocol.p_id);
 						action.setInstance(defView);
+						ccView = new CreateChattingView(action);
+						action.setInstance(ccView);
+						
 					}
 				}break;
 				case Protocol.addUser:{//110#
@@ -84,13 +89,36 @@ public class ClientThread extends Thread{
 					String p_id= st.nextToken();
 					String roomName = st.nextToken();
 					chatView = new ChatRoomView(action,p_id,roomName);
+					chatView.initDisplay();
+					//이 폼을 Map에다가 저장하기
+					client.chatRoom.put(roomName,chatView);
+					action.setInstance(chatView);
 				}break;
 				case Protocol.closeRoom:{//210#
 					
 					
 				}break;
-				case Protocol.sendMessage:{//300#
+				case Protocol.sendMessage:{//300번#p_id(메세지 보낸사람)#roomName#chat_msg
+					String p_id = st.nextToken();
+					String roomName = st.nextToken();
+					String chat_msg = st.nextToken();
 					
+					boolean success = true;
+					//초대한 사람이면 새로 창 띄울 필요 없고 원래 창에 메세지만 출력
+					for(String room:client.chatRoom.keySet()) {
+						if(room.equals(roomName)) {
+							chatView = null; //의문
+							client.chatRoom.get(roomName).jta_display.append(p_id+" : "+chat_msg+"\n");
+							success = false;
+						}
+					}
+					if(success) { // 초대받은 사람이라면 창을 새로 띄우고 거기에 메세지 출력
+					chatView = new ChatRoomView(action,Protocol.p_id,roomName);
+					chatView.initDisplay();
+					client.chatRoom.put(roomName,chatView);
+					action.setInstance(chatView);
+					chatView.jta_display.append(p_id+" : "+chat_msg+"\n");
+					}
 					
 				}break;
 				case Protocol.sendEmoticon:{//310#

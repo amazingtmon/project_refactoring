@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -22,6 +24,7 @@ public class ClientSocket extends Socket{
 	public ObjectOutputStream oos = null;
 	public ObjectInputStream ois = null;
 	private Stack<Exception> errorList = null;
+	Map<String, ChatRoomView> chatRoom = null;
 	ClientThread thread = null;
 	
 	public ClientSocket(ClientAddress address) throws IOException {
@@ -50,6 +53,7 @@ public class ClientSocket extends Socket{
 		System.out.println("connection() called");
 		oos = new ObjectOutputStream(getOutputStream());
 		ois = new ObjectInputStream(getInputStream());
+		chatRoom = new Hashtable<String, ChatRoomView>();
 		thread = new ClientThread(this);
 		thread.start();
 		//구분을 줘서 서버연결 성공 시 쓰레드 실행, 서버 연결 불가시 메세지 출력
@@ -60,11 +64,27 @@ public class ClientSocket extends Socket{
 	 * @param p_id 
 	 * @throws IOException 
 	 */
+	//로그인 체크
 	public void checkLogin(String p_id, String p_pw) throws IOException {
+		//100#p_id#p_pw
 		send(Protocol.checkLogin, p_id, p_pw);
 	}
 	
+	//로그인 성공
+	public void addResult(String result) {
+		if("성공".equals(result)) {
+			JOptionPane.showMessageDialog(thread.addView, thread.addView.jtf_id.getText()+"님 가입을 환영합니다.");
+			thread.addView.dispose();
+		}
+	}
 	
+	//회원가입
+	public void addUser(String new_id, String new_pw, String new_name) throws IOException{
+		//110#가입할 아이디#가입할 패스워드#가입할 이름
+		send(Protocol.addUser, new_id, new_pw, new_name);
+	}
+	
+	//방 만들기
 	public void createRoom(String p_id,List<String> selected_ID,String roomName) throws IOException {
 		 //#200#요청아이디#초대된아이디들#채팅방이름
 		String msg = Protocol.createRoom
@@ -75,22 +95,13 @@ public class ClientSocket extends Socket{
 		//send(Protocol.createRoom,selected_ID,roomName); //#200#요청아이디#초대된아이디들#채팅방이름
 	}
 
-	/**
-	 * AddUser 메소드
-	 */
-	public void addUser(String new_id, String new_pw, String new_name) throws IOException{
-		send(Protocol.addUser, new_id, new_pw, new_name);
+	//메세지 보내기
+	public void sendMessage(String p_id, String roomName, String chat_msg) throws IOException{
+		//300#말한 아이디#방 이름#채팅메세지
+		send(Protocol.sendMessage, p_id, roomName, chat_msg);
 	}
 	
-	public void addResult(String result) {
-		if("성공".equals(result)) {
-			JOptionPane.showMessageDialog(thread.addView, thread.addView.jtf_id.getText()+"님 가입을 환영합니다.");
-			thread.addView.dispose();
-		}
-	}
-	/**
-	 *  메소드
-	 */
+	
 	
 	/**
 	 *  메소드
