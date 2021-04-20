@@ -46,6 +46,7 @@ public class ClientThread extends Thread{
 		boolean isStop = false;
 		while(!isStop) {
 			try {
+				sleep(1000);
 				String msg = client.ois.readObject().toString();
 				StringTokenizer st = new StringTokenizer(msg, "#");
 				switch(st.nextToken()) {

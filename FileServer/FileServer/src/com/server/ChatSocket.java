@@ -66,6 +66,7 @@ public class ChatSocket extends Socket implements Runnable{
          isStop = true;
       }
       try {
+    	  Thread.sleep(1000);
          run_start://while문같은 반복문 전체를 빠져 나가도록 처리할 때
             while(!isStop) {
                String msg = ois.readObject().toString();

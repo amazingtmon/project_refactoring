@@ -1,4 +1,4 @@
-package com.Mapper;
+package com.mapper;
 
 import java.io.Reader;
 
@@ -14,7 +14,7 @@ public class MyBatisCommonFactory {
 				//동기화 블럭에 들어온 후에도 다시한번 널 체크
 				if(sqlSessionFactory == null) {
 					try {
-						String resource = "com/Mapper/Configuration.xml";
+						String resource = "com/mapper/Configuration.xml";
 						Reader reader = Resources.getResourceAsReader(resource);
 						sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
 						
